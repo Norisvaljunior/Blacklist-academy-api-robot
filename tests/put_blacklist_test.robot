@@ -13,3 +13,6 @@ Cenário com POST: Inativar Departamento
 Cenário com POST: Editar Departamento
   Criar centro de custo
   Editar Departamento
+
+Cenário com POST: Editar Diretoria
+  Editar Diretoria
