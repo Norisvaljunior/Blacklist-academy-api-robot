@@ -69,21 +69,30 @@ Criar Diretoria      # Esse foi um código de inserção que gera a massa de dad
   Set Test Variable    ${DIRETORIA_ID}        ${resposta.json()["newBoard"]["_id"]}
   Set Test Variable    ${resposta}            ${resposta.json()}
 
-Pesquisar Diretoria
+Listar Diretoria
   Criar sessão
   Logando como administrador
-  ${headers}       Create Dictionary    Content-Type=application/json           Authorization=${ID_TOKEN} 
-  ${response}      GET On Session       alias=APIBlacklist    url=/api/board    expected_status=200    headers=${headers}
-  Log To Console   ${response.status_code}
-  Log To Console   ${response.content}
-  Log To Console   ${response.headers}
+  ${headers}           Create Dictionary    Content-Type=application/json           Authorization=${ID_TOKEN} 
+  ${response}          GET On Session       alias=APIBlacklist    url=/api/board    expected_status=200    headers=${headers}
+  Log To Console       ${response.status_code}
+  Log To Console       ${response.content}
+
+Editar Diretoria
+  Criar Diretoria
+  ${palavra_randomica}      Generate Random String      length=5  chars=[LETTERS]
+  ${palavra_randomica}      Convert To Lower Case       ${palavra_randomica}
+  Set Test Variable         ${EDITARDIRETORIA}          Diretoria Editada${palavra_randomica}
+  ${header}                 Create Dictionary           Content-Type=application/json      Authorization=${ID_TOKEN}    
+  ${Response}               PUT On Session              alias=APIBlacklist     url=/api/board/${DIRETORIA_ID}    headers=${header}    data={ "boardName": "${EDITARDIRETORIA}" }
+  Log                       ${response.json()["msg"]}
+
 
 Criar centro de custo
   Criar Diretoria
 
   ${palavra_randomicacc}  Generate Random String  length=5  chars=[LETTERS]
   ${palavra_randomicacc}  Convert To Lower Case   ${palavra_randomicacc}
-  ${body}                 Create Dictionary         costCenterName=Blacklist${palavra_randomicacc}            boardId=${DIRETORIA_ID}    
+  ${body}                 Create Dictionary        costCenterName=Blacklist${palavra_randomicacc}            boardId=${DIRETORIA_ID}    
   Log                   ${body}
 
   ${headers}     Create Dictionary                Content-Type=application/json    Authorization=${ID_TOKEN} 
@@ -124,9 +133,7 @@ Editar Departamento
   ${header}                 Create Dictionary           Content-Type=application/json      Authorization=${ID_TOKEN}    
   ${Response}               PUT On Session              alias=APIBlacklist     url=/api/department/${DEPARTAMENTO_ID}    headers=${header}    data={ "departmentName": "${EDITARDEPARTAMENTO}" , "costCenterId": "${CENTROCUSTO_ID}" }
   Log                       ${response.json()["msg"]}
-#  Log To Console    ${Response.json()}
-#  Log To Console    ${Response.status_code}
-#  Log To Console    ${Response.content}
+
 
 Listar Departamento
   Criar sessão

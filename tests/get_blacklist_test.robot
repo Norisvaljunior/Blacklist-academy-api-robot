@@ -8,4 +8,4 @@ Cenário com GET : Módulo Departamento
   Listar Departamento
 
 Cenário com GET : Módulo Diretoria
-  Pesquisar Diretoria
+  Listar Diretoria
