@@ -69,6 +69,15 @@ Criar Diretoria      # Esse foi um código de inserção que gera a massa de dad
   Set Test Variable    ${DIRETORIA_ID}        ${resposta.json()["newBoard"]["_id"]}
   Set Test Variable    ${resposta}            ${resposta.json()}
 
+Pesquisar Diretoria
+  Criar sessão
+  Logando como administrador
+  ${headers}       Create Dictionary    Content-Type=application/json           Authorization=${ID_TOKEN} 
+  ${response}      GET On Session       alias=APIBlacklist    url=/api/board    expected_status=200    headers=${headers}
+  Log To Console   ${response.status_code}
+  Log To Console   ${response.content}
+  Log To Console   ${response.headers}
+
 Criar centro de custo
   Criar Diretoria
 
